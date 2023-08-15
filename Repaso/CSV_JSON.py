@@ -1,0 +1,2 @@
+#Se tiene un archivo plano con las ventas decada mes durante el año para cada venededor de la compañía y 
+#se requiere convertir este archivo a un formato JSON para poder ser exportado a la base de datos corporativa.
