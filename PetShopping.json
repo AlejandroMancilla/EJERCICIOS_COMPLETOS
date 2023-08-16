@@ -3,29 +3,12 @@
         {
             "Type": "DOG",
             "Breed": "PITBULL",
-            "Size": "LARGE",
-            "Price": 120000.0,
-            "Services": [
-                "SHOWER"
-            ]
-        },
-        {
-            "Type": "DOG",
-            "Breed": "PINCHER",
-            "Size": "MEDIUM",
-            "Price": 320000.0,
-            "Services": [
-                "HOTEL"
-            ]
-        },
-        {
-            "Type": "CAT",
-            "Breed": "MIAU",
-            "Size": "MEDIUM",
-            "Price": 32000.0,
+            "Size": "SMALL",
+            "Price": 1200000.0,
             "Services": [
                 "HOTEL",
-                "FOOD"
+                "SHOWER",
+                "MOTEL"
             ]
         }
     ]

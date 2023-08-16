@@ -35,10 +35,10 @@ def Continue():
 def MenuSize():
     Sizes = ["SMALL", "MEDIUM", "LARGE"]
     while True:
-        print("     Sizes")
-        print("1-   Small")
-        print("2-   Medium")
-        print("3-   Large")
+        print("\t     Sizes")
+        print("\t1-   Small")
+        print("\t2-   Medium")
+        print("\t3-   Large")
         Opc = ReadInt("\tChoose an Option (1-3): ")
         if Opc > 3:
             MsgNotify("Invalid Option")
@@ -47,26 +47,8 @@ def MenuSize():
             break
     return Sizes[Opc-1]
 
-def MenuModify():
-    while True:
-        print("\n\t     DATA TO MODIFY")
-        print("\t1-   Size")
-        print("\t2-   Price")
-        print("\t3-   Services")
-        print("\t4-   Return")
-        Opc = ReadInt("\tChoose an Option (1-3): ")
-        if Opc > 4:
-            MsgNotify("Invalid Option")
-            continue
-        else:
-            break
-    return Opc
-
-def ModifyServices(Data):
-    pass
-
 def IndexList(Data, Msg):
-    print("*" * 30,"LIST OF PETS", "*" * 30)
+    print("*" * 20,"LIST OF PETS", "*" * 20)
     print("|{:^8}|{:^18}|{:^18}|".format("INDEX","PET TYPE", "BREED"))
     print("+","-"*6,"+","-"*16,"+","-"*16,"+")
     Index = 1
@@ -153,22 +135,67 @@ def NewPet(Data):
     return Data
 
 def UpdatePet(Data):
-    Ind = IndexList(Data, "Enter Index of Pet to Update")
+    Ind = IndexList(Data, "\nEnter Index of Pet to Update: ")
+    Pet = Data["Pets"][Ind-1]
     while True:
+        print("-" * 99)
+        print("|{:^18}|{:^18}|{:^18}|{:<40}|".format("BREED", "SIZE", "PRICE", "SERVICES"))
+        print("|{:^18}|{:^18}|{:^18}|{:<40}|".format(Pet["Breed"], Pet["Size"], Pet["Price"], str(Pet["Services"])))
         Opc = MenuModify()
         if Opc == 1:
             NewSize = MenuSize()
             Data["Pets"][Ind-1]["Size"] = NewSize
         elif Opc == 2:
             NewPrice = ReadFloat("New Pet Price: ")
-            Data["Pets"][Ind-1]["Size"] = NewPrice
+            Data["Pets"][Ind-1]["Price"] = NewPrice
         elif Opc == 3:
-            NewServices = ModifyServices(Data)
-            Data["Pets"][Ind-1]["Size"] = NewServices
+            NewServices = ModifyServices(Data, Ind)
+            Data["Pets"][Ind-1]["Services"] = NewServices
         else:
+            MsgNotify("PET UPDATED SUCCESFULLY")
             return Data
-    MsgNotify("PET UPDATED SUCCESFULLY")
-    return Data
+
+def MenuModify():
+    while True:
+        print("\n     MODIFY MENU")
+        print("1-   Size")
+        print("2-   Price")
+        print("3-   Services")
+        print("4-   Return to Menu")
+        Opc = ReadInt("\tChoose an Option (1-4): ")
+        if Opc > 4:
+            MsgNotify("Invalid Option")
+            continue
+        else:
+            break
+    return Opc
+
+def ModifyServices(Data, Ind):
+    Services = []
+    Services = list(Data["Pets"][Ind-1]["Services"])
+    while True:
+        print("\n\t1 - Add Service")
+        print("\t2 - Remove Service")
+        print("\t3 - Return to Modify Menu")
+        Opc = ReadInt("\tChoose an Option(1-2): ")
+        for i in range(1, len(Services)+1):
+                print(f"{i} - {Services[i-1]}")
+        if Opc == 1:
+            NewService = ReadString("Enter a new Service: ")            
+            if NewService in Services:
+                MsgNotify("Existing Service")
+            else:
+                Services.append(NewService)
+        elif Opc == 2:
+            Del = ReadInt("\tChoose Service to remove: ")
+            if Del < len(Services) + 1:
+                Services.pop(Del)
+            else:
+                MsgNotify("Invalid Option")
+        elif Opc == 3:
+            return Services
+        else:
+            MsgNotify("Invalid Option")
 
 def DeletePet(Data):
     Opc = IndexList(Data, "Enter Index of Pet to Delete: ")
