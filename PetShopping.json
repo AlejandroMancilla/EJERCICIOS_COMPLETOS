@@ -1,0 +1,23 @@
+{
+    "Pets": {
+        "DOG": [
+            {
+                "Breed": "PITBULL",
+                "Size": "SMALL",
+                "Price": 120000.0,
+                "Services": [
+                    "SHOWER",
+                    "HOTEL"
+                ]
+            },
+            {
+                "Breed": "PINCHER",
+                "Size": "SMALL",
+                "Price": 20000.0,
+                "Services": [
+                    "BOZAL"
+                ]
+            }
+        ]
+    }
+}
