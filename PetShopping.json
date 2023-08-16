@@ -1,23 +1,32 @@
 {
-    "Pets": {
-        "DOG": [
-            {
-                "Breed": "PITBULL",
-                "Size": "SMALL",
-                "Price": 120000.0,
-                "Services": [
-                    "SHOWER",
-                    "HOTEL"
-                ]
-            },
-            {
-                "Breed": "PINCHER",
-                "Size": "SMALL",
-                "Price": 20000.0,
-                "Services": [
-                    "BOZAL"
-                ]
-            }
-        ]
-    }
+    "Pets": [
+        {
+            "Type": "DOG",
+            "Breed": "PITBULL",
+            "Size": "LARGE",
+            "Price": 120000.0,
+            "Services": [
+                "SHOWER"
+            ]
+        },
+        {
+            "Type": "DOG",
+            "Breed": "PINCHER",
+            "Size": "MEDIUM",
+            "Price": 320000.0,
+            "Services": [
+                "HOTEL"
+            ]
+        },
+        {
+            "Type": "CAT",
+            "Breed": "MIAU",
+            "Size": "MEDIUM",
+            "Price": 32000.0,
+            "Services": [
+                "HOTEL",
+                "FOOD"
+            ]
+        }
+    ]
 }

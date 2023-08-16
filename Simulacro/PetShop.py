@@ -49,7 +49,7 @@ def MenuSize():
 
 def MenuModify():
     while True:
-        print("\t     Data to Modify")
+        print("\n\t     DATA TO MODIFY")
         print("\t1-   Size")
         print("\t2-   Price")
         print("\t3-   Services")
@@ -65,39 +65,48 @@ def MenuModify():
 def ModifyServices(Data):
     pass
 
-def IndexList(Data):
+def IndexList(Data, Msg):
     print("*" * 30,"LIST OF PETS", "*" * 30)
-    print("|{:^8}|{:^18}|{:^18}|{:^18}|".format("INDEX","PET TYPE", "BREED", "PRICE"))
-    print("+","-"*6,"+","-"*16,"+","-"*16,"+","-"*16,"+")
+    print("|{:^8}|{:^18}|{:^18}|".format("INDEX","PET TYPE", "BREED"))
+    print("+","-"*6,"+","-"*16,"+","-"*16,"+")
     Index = 1
-    for Type in Data["Pets"].keys():
-        for Pet in Data["Pets"][Type]:
-            print("|{:^8}|{:^18}|{:^18}|{:^18}|".format(Index, Type, Pet["Breed"], Pet["Price"]))
-            Index += 1
+    for Pet in Data["Pets"]:
+        print("|{:^8}|{:^18}|{:^18}|".format(Index, Pet["Type"], Pet["Breed"]))
+        Index += 1
+    while True:
+        Opc = ReadInt(Msg)
+        if Opc <= Index:
+            return Opc
+        else:
+            MsgNotify("Index out of list")
 
 def ListPets(Data):
     print("*" * 48,"GENERAL LIST OF PETS", "*" * 48)
     print("|{:^18}|{:^18}|{:^18}|{:^18}|{:<40}|".format("PET TYPE", "BREED", "SIZE", "PRICE", "SERVICES"))
     print("+","-"*16,"+","-"*16,"+","-"*16,"+","-"*16,"+","-"*38,"+")
-    for Type in Data["Pets"].keys():
-        for Pet in Data["Pets"][Type]:
-            print("|{:^18}|{:^18}|{:^18}|{:^18}|{:<40}|".format(Type, Pet["Breed"], Pet["Size"], Pet["Price"], str(Pet["Services"])))
+    for Pet in Data["Pets"]:
+        print("|{:^18}|{:^18}|{:^18}|{:^18}|{:<40}|".format(Pet["Type"], Pet["Breed"], Pet["Size"], Pet["Price"], str(Pet["Services"])))
     MsgNotify("END OF LIST")
 
 def ListbyType(Data):
     while True:
-        Types = list(Data["Pets"].keys())
+        Types = []
+        for Pet in Data["Pets"]:
+            if not Pet["Type"] in Types:
+                Types.append(Pet["Type"])
         for i in range(1, len(Types)+1):
             print(f"{i} - {Types[i-1]}")
         Opc = ReadInt(f"Choose a Pet's Type (1 - {len(Types)+1}): ")
         if Opc < len(Types)+1:
-            print("*" * 48,"LIST OF PETS BY TYPE", "*" * 48)
+            print("*" * 38,"LIST OF PETS BY TYPE", "*" * 38)
             Type = Types[Opc-1]
             print(f"TYPE = {Type}")
+            print("-" * 98)
             print("|{:^18}|{:^18}|{:^18}|{:<40}|".format("BREED", "SIZE", "PRICE", "SERVICES"))
             print("+","-"*16,"+","-"*16,"+","-"*16,"+","-"*38,"+")
-            for Pet in Data["Pets"][Type]:
-                print("|{:^18}|{:^18}|{:^18}|{:<40}|".format(Pet["Breed"], Pet["Size"], Pet["Price"], str(Pet["Services"])))
+            for Pet in Data["Pets"]:
+                if Pet["Type"] == Type:
+                    print("|{:^18}|{:^18}|{:^18}|{:<40}|".format(Pet["Breed"], Pet["Size"], Pet["Price"], str(Pet["Services"])))
             MsgNotify("END OF LIST")
             break
         else:
@@ -105,19 +114,23 @@ def ListbyType(Data):
             continue
 
 def NewPet(Data):
-    Types = list(Data["Pets"].keys())
+    Types = []
+    for Pet in Data["Pets"]:
+        if not Pet["Type"] in Types:
+            Types.append(Pet["Type"])
     if len(Types) == 0:
         print("Create new Type")
         Type = ReadString("Pet Type: ")
-        Data["Pets"][Type] = []
     else:
         for i in range(1, len(Types)+1):
             print(f"{i} - {Types[i-1]}")
-        print(f"{len(Types)+1} - Create New Type")
+        print(f"{len(Types)+1} - CREATE NEW TYPE")
+        print(f"{len(Types)+2} - RETURN")
         Opc = ReadInt(f"\t>>Choose an Option (1-{len(Types) + 1}): ")
         if Opc == len(Types)+1:
             Type = ReadString("Pet Type: ")
-            Data["Pets"][Type] = []
+        elif Opc == len(Types)+2:
+            return Data
         else:
             Type = Types[Opc-1]
     Breed = ReadString(f"Breed of {Type}: ")
@@ -129,7 +142,8 @@ def NewPet(Data):
         Opc = Continue()
         if Opc == 2:
             break
-    Data["Pets"][Type].append({
+    Data["Pets"].append({
+        "Type": Type,
         "Breed":Breed,
         "Size":Size,
         "Price":Price,
@@ -139,22 +153,29 @@ def NewPet(Data):
     return Data
 
 def UpdatePet(Data):
-    IndexList(Data)
-    Opc = MenuModify()
-    if Opc == 1:
-        NewSize = MenuSize()
-    elif Opc == 2:
-        NewPrice = ReadFloat("New Pet Price: ")
-    elif Opc == 3:
-        NewServices = ModifyServices(Data)
-    else:
-        return Data
-    
+    Ind = IndexList(Data, "Enter Index of Pet to Update")
+    while True:
+        Opc = MenuModify()
+        if Opc == 1:
+            NewSize = MenuSize()
+            Data["Pets"][Ind-1]["Size"] = NewSize
+        elif Opc == 2:
+            NewPrice = ReadFloat("New Pet Price: ")
+            Data["Pets"][Ind-1]["Size"] = NewPrice
+        elif Opc == 3:
+            NewServices = ModifyServices(Data)
+            Data["Pets"][Ind-1]["Size"] = NewServices
+        else:
+            return Data
     MsgNotify("PET UPDATED SUCCESFULLY")
     return Data
 
 def DeletePet(Data):
-    IndexList(Data)
+    Opc = IndexList(Data, "Enter Index of Pet to Delete: ")
+    Delete = Data["Pets"].pop(Opc-1)
+    print("\nPet Deleted:")
+    print(f"\tType = {Delete['Type']}")
+    print(f"\tType = {Delete['Breed']}")
     MsgNotify("PET DELETED SUCCESFULLY")
     return Data
 
@@ -206,7 +227,7 @@ def LoadFile(Ruta):
             Data = json.load(OpenFile)
         except Exception as e:
             Data = {}
-            Data["Pets"] = {}
+            Data["Pets"] = []
     return Data
 
 def UpdateFile(Ruta, Data):
