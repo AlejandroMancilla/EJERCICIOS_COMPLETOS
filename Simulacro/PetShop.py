@@ -189,7 +189,7 @@ def ModifyServices(Data, Ind):
         elif Opc == 2:
             Del = ReadInt("\tChoose Service to remove: ")
             if Del < len(Services) + 1:
-                Services.pop(Del)
+                Services.pop(Del - 1)
             else:
                 MsgNotify("Invalid Option")
         elif Opc == 3:
@@ -259,7 +259,7 @@ def LoadFile(Ruta):
 
 def UpdateFile(Ruta, Data):
     with open(Ruta, "w") as OpenFile:
-        json.dump(Data, OpenFile, indent=4)
+        json.dump(Data, OpenFile, ensure_ascii=False, indent=4)
 
 def Clear():
     if os.name == "nt":

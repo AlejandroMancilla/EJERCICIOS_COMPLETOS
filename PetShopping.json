@@ -1,14 +1,22 @@
 {
     "Pets": [
         {
-            "Type": "DOG",
-            "Breed": "PITBULL",
-            "Size": "SMALL",
-            "Price": 1200000.0,
+            "Type": "CAT",
+            "Breed": "PERSA",
+            "Size": "MEDIUM",
+            "Price": 10000.0,
             "Services": [
-                "HOTEL",
-                "SHOWER",
-                "MOTEL"
+                "HOTELÇ",
+                "FOOD"
+            ]
+        },
+        {
+            "Type": "CAT",
+            "Breed": "PERSA",
+            "Size": "SMALL",
+            "Price": 120000.0,
+            "Services": [
+                "NOTHING"
             ]
         }
     ]
